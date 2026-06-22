@@ -1,9 +1,10 @@
-
+import JobForm from "../features/jobs/components/JobForm";
 
 function AddJob() {
   return (
     <div>
-      <h2>hello</h2>
+      <h2>add job</h2>
+      <JobForm />
     </div>
   );
 }
