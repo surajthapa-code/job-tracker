@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { job, JobState, JobStatus } from "./types";
+import type { Job, JobState, JobStatus } from "./types";
 
 const initialState: JobState = {
   items: [],
@@ -11,7 +11,7 @@ const jobsSlice = createSlice({
   name: "jobs",
   initialState,
   reducers: {
-    addJob: (state, action: PayloadAction<Omit<job, "id" | "date">>) => {
+    addJob: (state, action: PayloadAction<Omit<Job, "id" | "date">>) => {
       state.items.push({
         ...action.payload,
         id: crypto.randomUUID(),
@@ -33,12 +33,12 @@ const jobsSlice = createSlice({
     setFilter: (state, action: PayloadAction<JobStatus | "all">) => {
       state.filter = action.payload;
     },
-    setSeachQuery: (state, action: PayloadAction<string>) => {
+    setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
   },
 });
 
-export const { addJob, removeJob, updateStatus, setFilter, setSeachQuery } =
+export const { addJob, removeJob, updateStatus, setFilter, setSearchQuery } =
   jobsSlice.actions;
 export default jobsSlice.reducer;

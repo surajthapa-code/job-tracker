@@ -1,6 +1,6 @@
 export type JobStatus = "applied" | "interview" | "offer" | "rejected";
 
-export interface job {
+export interface Job {
   id: string;
   company: string;
   role: string;
@@ -10,7 +10,7 @@ export interface job {
   notes?: string;
 }
 export interface JobState {
-  items: job[];
+  items: Job[];
   filter: JobStatus | "all";
   searchQuery: string;
 }

@@ -4,6 +4,6 @@ export {
   removeJob,
   updateStatus,
   setFilter,
-  setSeachQuery,
+  setSearchQuery,
 } from "./jobsSlice";
-export type { job, JobState, JobStatus } from "./types";
+export type { Job, JobState, JobStatus } from "./types";
