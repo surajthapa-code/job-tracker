@@ -4,7 +4,7 @@ function Navbar() {
   return (
     <nav className="bg-gray-900 border-b border-gray-800 px-4 py-3">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Link to="/" className="text-xl font-bold text-blue-400">
+        <Link to="/" className="text-xl font-mono font-medium text-blue-400">
           JobTracker
         </Link>
         <div className="flex gap-6">
