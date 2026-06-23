@@ -49,9 +49,11 @@ function Dashboard() {
           <h2 className="text-2xl font-semibold text-slate-100">
             Recent Applications
           </h2>
-          <Link to="/jobs" className="text-sm text-blue-400 hover:underline">
-            See all
-          </Link>
+          {RecentJobs.length >= 5 && (
+            <Link to="/jobs" className="text-sm text-blue-400 hover:underline">
+              See all
+            </Link>
+          )}
         </div>
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

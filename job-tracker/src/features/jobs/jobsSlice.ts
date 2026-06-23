@@ -14,6 +14,9 @@ const jobsSlice = createSlice({
     addJob: (state, action: PayloadAction<Omit<Job, "id" | "date">>) => {
       state.items.push({
         ...action.payload,
+        salary: action.payload.salary
+          ? Number(action.payload.salary)
+          : undefined,
         id: crypto.randomUUID(),
         date: new Date().toLocaleDateString(),
       });
