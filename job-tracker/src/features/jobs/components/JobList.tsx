@@ -37,6 +37,7 @@ function JobList() {
   return (
     <div>
       <JobFilters />
+      <br />
       {FiliterdJobs.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-slate-700 py-12 text-center text-slate-400">
           No jobs match this filter or search.
