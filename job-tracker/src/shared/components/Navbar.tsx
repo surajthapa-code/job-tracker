@@ -1,8 +1,18 @@
 import { Link, NavLink } from "react-router-dom";
+// import { useTheme } from "../context/ThemeContext";
+// import { useEffect } from "react";
 
 function Navbar() {
+  // const { theme, toggleTheme } = useTheme();
+
+  // useEffect(() => {
+  //   const html = document.documentElement;
+  //   html.classList.remove("light", "dark");
+  //   html.classList.add(theme);
+  // }, [theme]);
+
   return (
-    <nav className="bg-gray-900 border-b border-gray-800 px-4 py-3">
+    <nav className="bg-gray-900 border-b border-gray-800 px-4 py-3  ">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <Link to="/" className="text-xl font-mono font-medium text-blue-400">
           JobTracker
@@ -35,6 +45,7 @@ function Navbar() {
           >
             + Add Job
           </Link>
+          {/* <button onClick={toggleTheme}>{theme}</button> */}
         </div>
       </div>
     </nav>
