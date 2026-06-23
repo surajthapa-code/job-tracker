@@ -27,7 +27,7 @@ export default function JobCard({ job }: JobCardProps) {
   const navigate = useNavigate();
   return (
     <div
-      onClick={() => navigate(`/job/${job.id}`)}
+      onClick={() => navigate(`/jobs/${job.id}`)}
       className="group cursor-pointer rounded-3xl border border-slate-700 bg-slate-950/80 p-6 shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:border-slate-600 hover:bg-slate-900"
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
