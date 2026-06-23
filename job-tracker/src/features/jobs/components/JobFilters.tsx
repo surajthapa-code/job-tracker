@@ -3,16 +3,17 @@ import type { JobStatus } from "../types";
 import type { RootState } from "../../../store/store";
 import { setFilter, setSearchQuery } from "../jobsSlice";
 
+
+const Filters: Array<JobStatus | "all"> = [
+  "all",
+  "applied",
+  "interview",
+  "offer",
+  "rejected",
+];
 function JobFilters() {
   const dispatch = useDispatch();
 
-  const Filters: Array<JobStatus | "all"> = [
-    "all",
-    "applied",
-    "interview",
-    "offer",
-    "rejected",
-  ];
   const currentFilter = useSelector((state: RootState) => state.jobs.filter);
   const currentSearchQuery = useSelector(
     (state: RootState) => state.jobs.searchQuery,
