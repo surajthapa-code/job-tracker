@@ -71,15 +71,19 @@ src/
 ## Pages
 
 ### Dashboard `/`
+![Dashboard](./screenshots/dashboard.png)
 Overview of all applications. Shows stat cards broken down by status and the 5 most recent applications.
 
 ### Jobs `/jobs`
+![Jobs](./screenshots/job-list.png)
 Full list of all applications. Filter by status — All, Applied, Interview, Offer, Rejected. Search by company name or role. Each card shows status, date, salary if provided, and notes.
 
 ### Add Job `/jobs/add`
+![Add Job](./screenshots/add-job.png)
 Form to add a new application. Fields: company name, role, status, salary (optional), notes (optional). Validates required fields and redirects to Jobs on submit.
 
 ### Job Detail `/jobs/:id`
+![Job Detail](./screenshots/job-detail.png)
 Full detail view of a single application. Update status via dropdown. Delete the application with confirmation navigation back to the list.
 
 ---
