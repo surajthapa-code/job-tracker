@@ -12,19 +12,25 @@ function Navbar() {
   // }, [theme]);
 
   return (
-    <nav className="bg-gray-900 border-b border-gray-800 px-4 py-3  ">
-      <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <Link to="/" className="text-xl font-mono font-medium text-blue-400">
-          JobTracker
+    <nav className="border-b border-slate-800/80 bg-slate-950/95 px-3 py-3 sm:px-4">
+      <div className="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <Link
+          to="/"
+          className="flex items-center justify-center rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-2 text-lg font-semibold text-blue-400 sm:justify-start"
+        >
+          JOB TRACKER
         </Link>
-        <div className="flex gap-6">
+
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-end sm:gap-3">
           <NavLink
             to="/"
             end
             className={({ isActive }) =>
-              isActive
-                ? "text-blue-400 font-medium"
-                : "text-gray-400 hover:text-white"
+              `rounded-full px-3 py-2 text-sm font-medium transition ${
+                isActive
+                  ? "bg-blue-600/20 text-blue-400"
+                  : "text-slate-400 hover:bg-slate-800 hover:text-white"
+              }`
             }
           >
             Dashboard
@@ -32,16 +38,18 @@ function Navbar() {
           <NavLink
             to="/jobs"
             className={({ isActive }) =>
-              isActive
-                ? "text-blue-400 font-medium"
-                : "text-gray-400 hover:text-white"
+              `rounded-full px-3 py-2 text-sm font-medium transition ${
+                isActive
+                  ? "bg-blue-600/20 text-blue-400"
+                  : "text-slate-400 hover:bg-slate-800 hover:text-white"
+              }`
             }
           >
             Jobs
           </NavLink>
           <Link
             to="/jobs/add"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md text-sm font-medium"
+            className="rounded-full bg-blue-600 px-3.5 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500"
           >
             + Add Job
           </Link>

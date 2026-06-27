@@ -18,24 +18,24 @@ function JobFilters() {
     (state: RootState) => state.jobs.searchQuery,
   );
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/60 p-3 shadow-sm shadow-black/10 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:p-4">
       <div className="flex-1">
         <input
           type="text"
           value={currentSearchQuery}
           onChange={(e) => dispatch(setSearchQuery(e.target.value))}
           placeholder="Search jobs"
-          className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+          className="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-4 py-2.5 text-sm text-slate-100 outline-none placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
         />
       </div>
 
-      <div className="mt-2 flex flex-wrap items-center gap-2 sm:mt-0">
+      <div className="flex flex-nowrap items-center gap-2 overflow-x-auto pb-1 sm:mt-0">
         {Filters.map((filter) => {
           return (
             <button
-              className={`rounded-full px-4 py-2 text-sm font-semibold capitalize transition ${
+              className={`whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold capitalize transition sm:px-4 ${
                 currentFilter === filter
-                  ? "bg-blue-600 text-white"
+                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
                   : "bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-slate-200"
               }`}
               key={filter}
