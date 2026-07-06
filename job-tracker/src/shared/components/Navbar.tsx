@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
+import ThemeToggle from "../../features/jobs/components/ToggleTheme";
 // import { useTheme } from "../context/ThemeContext";
 // import { useEffect } from "react";
 
@@ -20,7 +21,7 @@ function Navbar() {
         >
           JOB TRACKER
         </Link>
-
+        <ThemeToggle />
         <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-end sm:gap-3">
           <NavLink
             to="/"
