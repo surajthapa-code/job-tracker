@@ -3,65 +3,112 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
 import JobCard from "../features/jobs/components/JobCard";
 import { Link } from "react-router-dom";
+import { Button } from "../components/ui";
+import { useTheme } from "../shared/context/ThemeContext";
 
 function Dashboard() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const items = useSelector((state: RootState) => state.jobs.items);
   const RecentJobs = items.slice(-5).reverse();
+
   if (RecentJobs.length === 0) {
     return (
-      <div className="mx-auto max-w-4xl rounded-3xl border border-slate-800/80 bg-slate-950/90 p-5 shadow-xl shadow-black/30 sm:p-8">
-        <h4 className="mb-4 text-xl font-semibold text-slate-100">
-          No applications yet
-        </h4>
-        <p className="mb-6 text-sm text-slate-400">
-          You don't have any job applications yet. Add your first application to
-          get started.
-        </p>
-        <Link
-          to="/jobs/add"
-          className="inline-flex w-full items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-500 sm:w-auto"
+      <div
+        className={`
+        mx-auto max-w-2xl rounded-xl border p-8 text-center
+        ${
+          isDark
+            ? "border-slate-700 bg-slate-900/50"
+            : "border-slate-200 bg-slate-50/50"
+        }
+      `}
+      >
+        <h2
+          className={`mb-3 text-2xl font-bold font-poppins ${
+            isDark ? "text-white" : "text-slate-900"
+          }`}
         >
-          Add new job
+          Welcome to JobTracker
+        </h2>
+        <p
+          className={`mb-6 text-base ${
+            isDark ? "text-slate-400" : "text-slate-600"
+          }`}
+        >
+          Start tracking your job applications to stay organized and follow up
+          efficiently.
+        </p>
+        <Link to="/jobs/add" className="inline-block">
+          <Button variant="primary">Add Your First Job Application</Button>
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 sm:space-y-8">
-      <div className="rounded-3xl border border-slate-800/80 bg-slate-950/70 p-4 shadow-xl shadow-black/20 sm:p-6">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 className="text-xl font-semibold text-slate-100 sm:text-2xl">
-              Stats
-            </h2>
-            <p className="text-sm text-slate-400">
-              Overview of your job applications
-            </p>
-          </div>
+    <div className="space-y-6">
+      {/* Stats Section */}
+      <div
+        className={`
+        rounded-lg border p-6
+        ${
+          isDark
+            ? "border-slate-700 bg-slate-900/50"
+            : "border-slate-200 bg-white/50"
+        }
+      `}
+      >
+        <div className="mb-4">
+          <h2
+            className={`text-2xl font-bold font-poppins ${
+              isDark ? "text-white" : "text-slate-900"
+            }`}
+          >
+            Your Stats
+          </h2>
+          <p
+            className={`text-sm ${
+              isDark ? "text-slate-400" : "text-slate-600"
+            }`}
+          >
+            Overview of your job applications
+          </p>
         </div>
-
-        <div className="mt-4">
-          <JobStats />
-        </div>
+        <JobStats />
       </div>
 
-      <div className="rounded-3xl border border-slate-800/80 bg-slate-950/70 p-4 shadow-xl shadow-black/20 sm:p-6">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-xl font-semibold text-slate-100 sm:text-2xl">
-            Recent Applications
-          </h2>
-          {RecentJobs.length >= 5 && (
-            <Link
-              to="/jobs"
-              className="text-sm font-medium text-blue-400 hover:underline"
+      {/* Recent Applications Section */}
+      <div
+        className={`
+        rounded-lg border p-6
+        ${
+          isDark
+            ? "border-slate-700 bg-slate-900/50"
+            : "border-slate-200 bg-white/50"
+        }
+      `}
+      >
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h2
+              className={`text-2xl font-bold font-poppins ${
+                isDark ? "text-white" : "text-slate-900"
+              }`}
             >
-              See all
+              Recent Applications
+            </h2>
+          </div>
+          {RecentJobs.length >= 5 && (
+            <Link to="/jobs">
+              <Button variant="ghost" className="text-sm">
+                View All →
+              </Button>
             </Link>
           )}
         </div>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {RecentJobs.map((job) => (
             <JobCard job={job} key={job.id} />
           ))}

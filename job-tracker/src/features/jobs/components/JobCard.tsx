@@ -3,85 +3,150 @@ import { useDispatch } from "react-redux";
 import { removeJob, updateStatus } from "../jobsSlice";
 import { useNavigate } from "react-router-dom";
 import type React from "react";
+import { Card } from "../../../components/ui/Card";
+import { Badge } from "../../../components/ui/Badge";
+import { Button } from "../../../components/ui/Button";
+import { Select } from "../../../components/ui/Select";
+import { useTheme } from "../../../shared/context/ThemeContext";
+import { Trash2 } from "lucide-react";
 
 interface JobCardProps {
   job: Job;
 }
 
-const statusColors: Record<JobStatus, string> = {
-  applied: "bg-blue-500/20 text-blue-300",
-  interview: "bg-yellow-500/20 text-yellow-300",
-  offer: "bg-green-500/20 text-green-300",
-  rejected: "bg-red-500/20 text-red-300",
+const statusVariants: Record<
+  JobStatus,
+  "info" | "warning" | "success" | "destructive"
+> = {
+  applied: "info",
+  interview: "warning",
+  offer: "success",
+  rejected: "destructive",
+};
+
+const statusLabels: Record<JobStatus, string> = {
+  applied: "Applied",
+  interview: "Interview",
+  offer: "Offer",
+  rejected: "Rejected",
 };
 
 export default function JobCard({ job }: JobCardProps) {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const dispatch = useDispatch();
+
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     dispatch(removeJob(job.id));
   };
+
   const handleChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(updateStatus({ id: job.id, status: e.target.value as JobStatus }));
   };
+
   const navigate = useNavigate();
+
   return (
-    <div
+    <Card
       onClick={() => navigate(`/jobs/${job.id}`)}
-      className="group cursor-pointer rounded-3xl border border-slate-700 bg-slate-950/80 p-6 shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:border-blue-600 hover:bg-slate-900"
+      className={`
+        cursor-pointer transition-all hover:shadow-lg
+        ${isDark ? "hover:border-blue-600/50" : "hover:border-blue-400/50"}
+      `}
     >
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div className="space-y-1">
-          <h3 className="text-base font-semibold text-slate-100">
-            {job.company}
-          </h3>
-          <p className="text-sm text-slate-400">{job.role}</p>
+      <div className="p-6">
+        {/* Header with Company and Status */}
+        <div className="mb-4 flex items-start justify-between gap-3">
+          <div className="flex-1">
+            <h3
+              className={`font-semibold leading-tight ${
+                isDark ? "text-white" : "text-slate-900"
+              }`}
+            >
+              {job.company}
+            </h3>
+            <p
+              className={`text-sm ${
+                isDark ? "text-slate-400" : "text-slate-600"
+              }`}
+            >
+              {job.role}
+            </p>
+          </div>
+          <Badge variant={statusVariants[job.status]}>
+            {statusLabels[job.status]}
+          </Badge>
         </div>
 
-        <span
-          className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${statusColors[job.status]}`}
+        {/* Job Details */}
+        <div
+          className={`mb-4 space-y-2 text-sm ${
+            isDark ? "text-slate-300" : "text-slate-700"
+          }`}
         >
-          {job.status}
-        </span>
-      </div>
+          <div>
+            <p
+              className={`text-xs font-medium ${
+                isDark ? "text-slate-400" : "text-slate-600"
+              }`}
+            >
+              Applied on
+            </p>
+            <p className="font-medium">{job.date}</p>
+          </div>
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-center">
-        <div className="space-y-2 text-sm text-slate-300">
-          <p className="text-slate-200">Date</p>
-          <p className="rounded-2xl bg-slate-900 px-3 py-2">{job.date}</p>
           {job.salary && (
-            <p className="rounded-2xl bg-slate-900 px-3 py-2">
-              Salary: ${job.salary}
-            </p>
+            <div>
+              <p
+                className={`text-xs font-medium ${
+                  isDark ? "text-slate-400" : "text-slate-600"
+                }`}
+              >
+                Salary
+              </p>
+              <p className="font-medium">${job.salary}</p>
+            </div>
           )}
+
           {job.notes && (
-            <p className="rounded-2xl bg-slate-900 px-3 py-2">
-              Notes: {job.notes}
-            </p>
+            <div>
+              <p
+                className={`text-xs font-medium ${
+                  isDark ? "text-slate-400" : "text-slate-600"
+                }`}
+              >
+                Notes
+              </p>
+              <p className="line-clamp-2">{job.notes}</p>
+            </div>
           )}
         </div>
 
-        <div className="space-y-3">
-          <select
-            onClick={(e) => e.stopPropagation()}
+        {/* Actions */}
+        <div className="space-y-2" onClick={(e) => e.stopPropagation()}>
+          <Select
             onChange={handleChangeStatus}
-            defaultValue={`${job.status}`}
-            className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+            defaultValue={job.status}
+            className="text-sm"
           >
-            <option value="applied">applied</option>
-            <option value="interview">interview</option>
-            <option value="offer">offer</option>
-            <option value="rejected">rejected</option>
-          </select>
+            <option value="applied">Applied</option>
+            <option value="interview">Interview</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">Rejected</option>
+          </Select>
 
-          <button
+          <Button
             onClick={handleDelete}
-            className="w-full rounded-2xl bg-rose-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-500/40"
+            variant="destructive"
+            size="sm"
+            className="w-full"
           >
+            <Trash2 className="h-4 w-4" />
             Delete
-          </button>
+          </Button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

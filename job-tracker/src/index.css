@@ -1,2 +1,33 @@
 @import "tailwindcss";
-@variant dark (&:where(.dark, .dark *));
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Global styles */
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-weight: 700;
+}
+
+/* Dark mode (default) */
+html.dark {
+  color-scheme: dark;
+}
+
+/* Light mode */
+html.light {
+  color-scheme: light;
+}

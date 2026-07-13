@@ -1,7 +1,18 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../store/store";
+import { Card, CardContent } from "../../../components/ui";
+import { useTheme } from "../../../shared/context/ThemeContext";
+
+interface StatItem {
+  label: string;
+  value: number;
+  colorClass: string;
+  lightColorClass: string;
+}
 
 export default function JobStats() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const items = useSelector((state: RootState) => state.jobs.items);
 
   const stats = {
@@ -11,52 +22,66 @@ export default function JobStats() {
     offer: items.filter((j) => j.status === "offer").length,
     rejected: items.filter((j) => j.status === "rejected").length,
   };
+
+  const statItems: StatItem[] = [
+    {
+      label: "Total",
+      value: stats.total,
+      colorClass: isDark ? "text-slate-400" : "text-slate-600",
+      lightColorClass: isDark ? "text-slate-100" : "text-slate-900",
+    },
+    {
+      label: "Applied",
+      value: stats.applied,
+      colorClass: isDark ? "text-blue-300" : "text-blue-700",
+      lightColorClass: isDark ? "text-blue-100" : "text-blue-900",
+    },
+    {
+      label: "Interview",
+      value: stats.interview,
+      colorClass: isDark ? "text-amber-300" : "text-amber-700",
+      lightColorClass: isDark ? "text-amber-100" : "text-amber-900",
+    },
+    {
+      label: "Offer",
+      value: stats.offer,
+      colorClass: isDark ? "text-emerald-300" : "text-emerald-700",
+      lightColorClass: isDark ? "text-emerald-100" : "text-emerald-900",
+    },
+    {
+      label: "Rejected",
+      value: stats.rejected,
+      colorClass: isDark ? "text-rose-300" : "text-rose-700",
+      lightColorClass: isDark ? "text-rose-100" : "text-rose-900",
+    },
+  ];
+
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-      <div className="rounded-2xl border border-slate-700 bg-slate-950/80 p-3 shadow-md shadow-black/20 sm:p-4">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400 sm:text-sm">
-          Total
-        </p>
-        <p className="mt-2 text-xl font-semibold text-slate-100 sm:text-2xl">
-          {stats.total}
-        </p>
-      </div>
-
-      <div className="rounded-2xl border border-blue-700/40 bg-blue-900/10 p-3 shadow-md shadow-black/20 sm:p-4">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-blue-300 sm:text-sm">
-          Applied
-        </p>
-        <p className="mt-2 text-xl font-semibold text-blue-100 sm:text-2xl">
-          {stats.applied}
-        </p>
-      </div>
-
-      <div className="rounded-2xl border border-yellow-700/30 bg-yellow-900/10 p-3 shadow-md shadow-black/20 sm:p-4">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-yellow-300 sm:text-sm">
-          Interview
-        </p>
-        <p className="mt-2 text-xl font-semibold text-yellow-100 sm:text-2xl">
-          {stats.interview}
-        </p>
-      </div>
-
-      <div className="rounded-2xl border border-green-700/30 bg-green-900/10 p-3 shadow-md shadow-black/20 sm:p-4">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-green-300 sm:text-sm">
-          Offer
-        </p>
-        <p className="mt-2 text-xl font-semibold text-green-100 sm:text-2xl">
-          {stats.offer}
-        </p>
-      </div>
-
-      <div className="rounded-2xl border border-rose-700/30 bg-rose-900/10 p-3 shadow-md shadow-black/20 sm:p-4 sm:col-span-1 col-span-2">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-rose-300 sm:text-sm">
-          Rejected
-        </p>
-        <p className="mt-2 text-xl font-semibold text-rose-100 sm:text-2xl">
-          {stats.rejected}
-        </p>
-      </div>
+      {statItems.map((stat) => (
+        <Card
+          key={stat.label}
+          className={`
+            transition-colors
+            ${
+              isDark
+                ? "border-slate-700 bg-slate-900/50"
+                : "border-slate-200 bg-white/50"
+            }
+          `}
+        >
+          <CardContent className="p-4">
+            <p
+              className={`text-xs font-semibold uppercase tracking-widest ${stat.colorClass}`}
+            >
+              {stat.label}
+            </p>
+            <p className={`mt-3 text-2xl font-bold ${stat.lightColorClass}`}>
+              {stat.value}
+            </p>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 }

@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import type { JobStatus } from "../types";
 import type { RootState } from "../../../store/store";
 import { setFilter, setSearchQuery } from "../jobsSlice";
+import { Input } from "../../../components/ui";
+import { useTheme } from "../../../shared/context/ThemeContext";
 
 const Filters: Array<JobStatus | "all"> = [
   "all",
@@ -10,38 +12,68 @@ const Filters: Array<JobStatus | "all"> = [
   "offer",
   "rejected",
 ];
+
+const filterLabels: Record<JobStatus | "all", string> = {
+  all: "All",
+  applied: "Applied",
+  interview: "Interview",
+  offer: "Offer",
+  rejected: "Rejected",
+};
+
 function JobFilters() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const dispatch = useDispatch();
 
   const currentFilter = useSelector((state: RootState) => state.jobs.filter);
   const currentSearchQuery = useSelector(
     (state: RootState) => state.jobs.searchQuery,
   );
+
   return (
-    <div className="flex flex-col gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/60 p-3 shadow-sm shadow-black/10 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:p-4">
+    <div
+      className={`
+      flex flex-col gap-4 rounded-lg border p-4
+      ${
+        isDark
+          ? "border-slate-700 bg-slate-900/30"
+          : "border-slate-200 bg-white/50"
+      }
+      sm:flex-row sm:items-center
+    `}
+    >
       <div className="flex-1">
-        <input
+        <Input
           type="text"
           value={currentSearchQuery}
           onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-          placeholder="Search jobs"
-          className="w-full rounded-xl border border-slate-700 bg-slate-900/90 px-4 py-2.5 text-sm text-slate-100 outline-none placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
+          placeholder="Search by company or role..."
+          className="w-full"
         />
       </div>
 
-      <div className="flex flex-nowrap items-center gap-2 overflow-x-auto pb-1 sm:mt-0">
+      <div className="flex flex-nowrap items-center gap-2 overflow-x-auto">
         {Filters.map((filter) => {
+          const isActive = currentFilter === filter;
           return (
             <button
-              className={`whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold capitalize transition sm:px-4 ${
-                currentFilter === filter
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
-                  : "bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-slate-200"
-              }`}
               key={filter}
               onClick={() => dispatch(setFilter(filter))}
+              className={`
+                whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-all
+                ${
+                  isActive
+                    ? isDark
+                      ? "bg-blue-600 text-white shadow-md"
+                      : "bg-blue-600 text-white shadow-md"
+                    : isDark
+                      ? "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                }
+              `}
             >
-              {filter}
+              {filterLabels[filter]}
             </button>
           );
         })}

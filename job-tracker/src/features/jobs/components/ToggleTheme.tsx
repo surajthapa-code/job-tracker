@@ -1,71 +1,54 @@
-import { useEffect, useState, type JSX } from "react";
-
-type Theme = "Light" | "Dark";
+import { useTheme } from "../../../shared/context/ThemeContext";
+import type { JSX } from "react";
 
 function ThemeToggle(): JSX.Element {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== "undefined") {
-      const savedtheme = localStorage.getItem("theme") as Theme;
-      if (savedtheme === "Light" || savedtheme === "Dark") return savedtheme;
-
-      const systemPreferDark = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
-      return systemPreferDark ? "Dark" : "Light";
-    }
-    return "Light";
-  });
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const root = window.document.documentElement;
-    if (theme === "Dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  function toggleTheme() {
-    setTheme((prev) => (prev === "Dark" ? "Light" : "Dark"));
-  }
-
-  const isDark = theme === "Dark";
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
 
   return (
     <button
       onClick={toggleTheme}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
       className={`
-        relative w-[68px] h-[34px] rounded-full p-1 flex items-center transition-colors duration-300 cursor-pointer select-none focus:outline-none focus:ring-2 focus:ring-blue-400
-        ${isDark ? "bg-blue-600" : "bg-gray-300"}
+        group relative inline-flex items-center h-8 w-16 rounded-full
+        transition-all duration-300 cursor-pointer select-none
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+        ${
+          isDark
+            ? "bg-slate-700/60 hover:bg-slate-600/60 shadow-md"
+            : "bg-blue-100/70 hover:bg-blue-150/80 shadow-sm"
+        }
       `}
     >
       {/* Sliding Thumb */}
       <div
         className={`
-          absolute w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-300 top-1 z-10
-          ${isDark ? "translate-x-[34px]" : "translate-x-0"}
+          absolute w-7 h-7 rounded-full transition-all duration-300 transform
+          ${
+            isDark
+              ? "translate-x-8 bg-white shadow-lg"
+              : "translate-x-0.5 bg-white shadow-md"
+          }
         `}
       />
 
-      {/* Sun Icon */}
+      {/* Sun Icon - Left */}
       <span
         className={`
-          absolute left-2 text-sm z-0 transition-opacity duration-300
-          ${isDark ? "opacity-0" : "opacity-100"}
+          absolute left-1.5 text-lg transition-all duration-300 transform
+          pointer-events-none z-10
+          ${isDark ? "opacity-0 scale-50" : "opacity-100 scale-100"}
         `}
       >
         ☀️
       </span>
 
-      {/* Moon Icon */}
+      {/* Moon Icon - Right */}
       <span
         className={`
-          absolute right-2 text-sm z-0 transition-opacity duration-300
-          ${isDark ? "opacity-100" : "opacity-0"}
+          absolute right-1.5 text-lg transition-all duration-300 transform
+          pointer-events-none z-10
+          ${isDark ? "opacity-100 scale-100" : "opacity-0 scale-50"}
         `}
       >
         🌙
